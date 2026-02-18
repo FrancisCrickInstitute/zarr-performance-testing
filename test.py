@@ -18,7 +18,13 @@ def create_data(shape, chunk_size):
 
 
 def init_logging():
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    log_filename = 'log/zarr_performance_testing.log'
+    log_format = '%(asctime)s %(levelname)s: %(message)s'
+    basepath = os.path.dirname(log_filename)
+    if basepath and not os.path.exists(basepath):
+        os.makedirs(basepath)
+    handlers = [logging.FileHandler(log_filename, encoding='utf-8'), logging.StreamHandler()]
+    logging.basicConfig(level=logging.INFO, format=log_format, handlers=handlers, encoding='utf-8')
     logging.getLogger('ome_zarr').setLevel(logging.WARNING)
 
 

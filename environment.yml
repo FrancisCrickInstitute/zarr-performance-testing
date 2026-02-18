@@ -1,4 +1,4 @@
-name: zarr-env
+name: zarr-performance-env
 channels:
  - conda-forge
  - defaults
