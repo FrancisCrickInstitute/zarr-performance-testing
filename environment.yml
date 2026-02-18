@@ -1,0 +1,15 @@
+name: zarr-env
+channels:
+ - conda-forge
+ - defaults
+dependencies:
+ - python=3.12
+ - numpy
+ - dask(array)
+ - zarr>=3
+ - ome-zarr
+ - matplotlib
+ - tqdm
+ - pip
+ - pip:
+   - git+https://github.com/dask/dask.git  # replace with conda package dask(array) when fix is in release (v>2026.1.2)
