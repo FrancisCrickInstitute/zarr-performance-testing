@@ -48,12 +48,12 @@ def test(create_func, read_func, filename, data, axes, chunk_size, shard_size, o
     if os.path.exists(filename):
         shutil.rmtree(filename, ignore_errors=True)
 
-    with Timer(create_func.__name__ + f' {data.shape} {chunk_size} {shard_size}'):
+    with Timer(create_func.__name__ + f'\t{data.shape}\t{chunk_size}\t{shard_size}', auto_unit=False):
         create_func(filename=filename, data=data, axes=axes,
                     chunk_size=chunk_size, shard_size=shard_size, ome_version=ome_version)
     validate_zarr_data(filename=filename, data=data,
                        chunk_size=chunk_size, shard_size=shard_size)
-    with Timer(read_func.__name__ + f' {data.shape} {chunk_size} {shard_size}'):
+    with Timer(read_func.__name__ + f'\t{data.shape}\t{chunk_size}\t{shard_size}', auto_unit=False):
         read_func(filename=filename)
 
 
@@ -62,19 +62,28 @@ def test_data_range(filename):
 
     shape_chunks_shards_sets = [
         ((10240, 10240), (1024, 1024), None),
+        ((10240, 10240), (4096, 4096), None),
         ((10240, 10240), (10240, 10240), None),
         ((10240, 10240), (1024, 1024), (1024, 1024)),
+        ((10240, 10240), (1024, 1024), (4096, 4096)),
         ((10240, 10240), (1024, 1024), (10240, 10240)),
+        ((10240, 10240), (2048, 2048), (10240, 10240)),
 
         ((102400, 102400), (1024, 1024), None),
+        ((102400, 102400), (4096, 4096), None),
         ((102400, 102400), (10240, 10240), None),
         ((102400, 102400), (1024, 1024), (1024, 1024)),
+        ((102400, 102400), (1024, 1024), (4096, 4096)),
         ((102400, 102400), (1024, 1024), (10240, 10240)),
+        ((102400, 102400), (2048, 2048), (10240, 10240)),
 
         ((1024000, 1024000), (1024, 1024), None),
+        ((1024000, 1024000), (4096, 4096), None),
         ((1024000, 1024000), (10240, 10240), None),
         ((1024000, 1024000), (1024, 1024), (1024, 1024)),
+        ((1024000, 1024000), (1024, 1024), (4096, 4096)),
         ((1024000, 1024000), (1024, 1024), (10240, 10240)),
+        ((1024000, 1024000), (2048, 2048), (10240, 10240)),
     ]
 
     for shape, chunk_size, shard_size in shape_chunks_shards_sets:
