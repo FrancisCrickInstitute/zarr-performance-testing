@@ -21,4 +21,4 @@ def create_zarr(filename, data, axes, chunk_size, shard_size, compressor='blosc'
 
 def read_zarr(filename):
     data = zarr.open_array(filename, mode='r')
-    return data
+    return data[:]
